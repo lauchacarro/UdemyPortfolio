@@ -1,4 +1,5 @@
 using System;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Builder;
@@ -54,15 +55,9 @@ namespace UdemyPortfolio.Web
                 microsoftOptions.ClientId = Environment.GetEnvironmentVariable("MS_CLIENT_ID");
                 microsoftOptions.ClientSecret = Environment.GetEnvironmentVariable("MS_CLIENT_SECRET");
             });
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
             services.Configure<ForwardedHeadersOptions>(options =>
             {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.All;
             });
         }
 
@@ -82,10 +77,8 @@ namespace UdemyPortfolio.Web
                 app.UseHsts();
             }
 
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCors();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
