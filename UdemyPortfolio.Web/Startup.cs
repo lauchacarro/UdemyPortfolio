@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,7 +38,7 @@ namespace UdemyPortfolio.Web
             services.AddSingleton<IUdemyService, UdemyService>();
             services.AddSingleton<ICertificateService, CertificateService>();
             services.AddSingleton<IPathService, PathService>();
-
+            
             services.AddHttpContextAccessor();
 
             services.AddAuthentication(options =>
@@ -50,6 +51,11 @@ namespace UdemyPortfolio.Web
             {
                 microsoftOptions.ClientId = Environment.GetEnvironmentVariable("MS_CLIENT_ID");
                 microsoftOptions.ClientSecret = Environment.GetEnvironmentVariable("MS_CLIENT_SECRET");
+            });
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
             });
         }
 
