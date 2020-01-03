@@ -1,0 +1,9 @@
+﻿# Regla 1
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+# Regla 2
+User-agent: *
+Allow: /
+
+Sitemap: https://udemyportfolio.herokuapp.com/sitemap.xml
