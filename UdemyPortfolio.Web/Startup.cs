@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using UdemyPortfolio.Models.Settings;
 using UdemyPortfolio.Services.Abstracts;
 using UdemyPortfolio.Services.Concretes;
+using UdemyPortfolio.Web.Extensions;
 
 namespace UdemyPortfolio.Web
 {
@@ -38,7 +40,7 @@ namespace UdemyPortfolio.Web
             services.AddSingleton<IUdemyService, UdemyService>();
             services.AddSingleton<ICertificateService, CertificateService>();
             services.AddSingleton<IPathService, PathService>();
-            
+
             services.AddHttpContextAccessor();
 
             services.AddAuthentication(options =>
@@ -60,8 +62,7 @@ namespace UdemyPortfolio.Web
             }));
             services.Configure<ForwardedHeadersOptions>(options =>
             {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
             });
         }
 
@@ -80,13 +81,18 @@ namespace UdemyPortfolio.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            var options = new RewriteOptions()
+               .AddRedirectToProxiedHttps()
+               .AddRedirect("(.*)/$", "$1");  // remove trailing slash
+            app.UseRewriter(options);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health");
