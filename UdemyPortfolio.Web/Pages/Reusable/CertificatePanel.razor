@@ -1,0 +1,16 @@
+﻿<div class="col-lg-4 mb-3 mb-lg-0">
+    <div class="hover hover-1 text-white rounded">
+        <a href="@Certificate.Long_url" target="_blank" class="without-color">
+            <img src="@Certificate.Course.Image_480x270" alt="@Certificate.Course.Title">
+            <div class="hover-overlay"></div>
+            <div class="hover-1-content px-5 py-4">
+                <h3 class="hover-1-title text-uppercase font-weight-bold mb-0"> <span class="font-weight-light">@Certificate.Course.Title </span></h3>
+            </div>
+        </a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public UdemyPortfolio.Models.Certificate Certificate { get; set; }
+}

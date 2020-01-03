@@ -1,0 +1,18 @@
+﻿
+<div class="span3 well">
+    <center>
+        <img src="@User.Image_100x100" name="me" width="140" height="140" class="img-circle" />
+        <br />
+        <br />
+        <h3>@User.Title</h3>
+        @if (!string.IsNullOrWhiteSpace(User.Job_Title))
+        {
+            <h6>@User.Job_Title</h6>
+        }
+    </center>
+</div>
+
+@code {
+    [Parameter]
+    public UdemyPortfolio.Models.User User { get; set; }
+}

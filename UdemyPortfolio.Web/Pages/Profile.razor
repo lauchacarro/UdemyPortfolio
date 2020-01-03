@@ -1,0 +1,33 @@
+﻿@page "/profile/{Identifier}"
+@layout ProfileLayout
+@inherits ProfileComponent
+
+<div class="container py-5 bg-white">
+
+    <header class="text-center">
+        <a href="/" class="without-color">
+            <h1 class="display-4 font-weight-bold">Udemy Portfolio</h1>
+        </a>
+
+        @if (User != null)
+        {
+            <UserPanel User="@User"></UserPanel>
+        }
+    </header>
+
+    <div class="py-5">
+        <h3 class="font-weight-bold mb-0">Certificados</h3>
+        @if (User != null)
+        {
+            <p class="font-italic text-muted mb-4">Estos son los cursos que @User.Title completó.</p>
+        }
+        <div class="row">
+
+            @for (int i = 0; i < Certificates.Count; i++)
+            {
+                <CertificatePanel Certificate="@Certificates[i]"></CertificatePanel>
+            }
+
+        </div>
+    </div>
+</div>

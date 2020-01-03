@@ -1,0 +1,35 @@
+﻿@inherits TableCertificateComponent
+
+
+<div class="table-responsive">
+    <table class="table">
+        <caption>Lista de Certificados</caption>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Imagen Curso</th>
+                <th scope="col">Título Curso</th>
+                <th scope="col">Info Curso</th>
+                <th scope="col">Fecha Finalización</th>
+                <th scope="col">Certificado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Certificates.Count; i++)
+            {
+                <tr>
+                    <th scope="row">@(i + 1) </th>
+                    <td>@Certificates[i].Code</td>
+                    <td><img src="@Certificates[i].Course.Image_240x135" /></td>
+                    <td>@Certificates[i].Course.Title</td>
+                    <td>@Certificates[i].Course.Content_info</td>
+                    <td>@Certificates[i].Completion_date</td>
+                    <td><a href="@Certificates[i].Long_url" target="_blank">Ver Certificado</a></td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,18 @@
+﻿@page "/"
+
+<h1 class="text-center" style="margin:40px; color:rgb(255,0,0)">Udemy Portfolio</h1>
+
+<p class="text-center">Con esta herramienta podrás compartir un perfil con todos los certificados que hayas obtenido completando cursos de Udemy.</p>
+<p class="text-center">Con tu cuenta de Microsoft tendrás un link que podrás compartir para que todos vean lo que has estado aprendiendo.</p>
+<div class="text-center d-lg-flex justify-content-lg-center" style="margin-top:60px">
+    <CascadingAuthenticationState>
+        <AuthorizeView>
+            <Authorized>
+                <a class="btn btn-primary btn-lg d-lg-flex align-content-center align-items-lg-start" href="/Admin">Comienza Ahora</a>
+            </Authorized>
+            <NotAuthorized>
+                <a class="btn btn-primary btn-lg d-lg-flex align-content-center align-items-lg-start" href="/api/Account/DoChallenge?redirectUri=Admin">Comienza Ahora</a>
+            </NotAuthorized>
+        </AuthorizeView>
+    </CascadingAuthenticationState>
+</div>

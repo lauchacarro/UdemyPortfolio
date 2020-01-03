@@ -1,0 +1,24 @@
+﻿@inherits AdminLayoutComponent
+@layout MainLayout
+@attribute [Authorize]
+@page "/admin"
+
+<h1>Admin</h1>
+
+@if (!Loading)
+{
+    <CascadingValue Value="@this">
+        @if (User != null)
+        {
+            <div class="container">
+                <UserPanel User="@User"></UserPanel>
+            </div>
+        }
+
+        @Body
+    </CascadingValue>
+}
+else
+{
+    <p>Loading...</p>
+}

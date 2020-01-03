@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main bg-white">
+    <div class="top-row px-4">
+        <CascadingAuthenticationState>
+            <AuthorizeView>
+                <Authorized>
+                    <div>Hello, @context.User.Identity.Name!</div>
+                    <a href="/api/Account/logOut">Log Out</a>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/api/Account/DoChallenge?redirectUri=@Navigation.Uri">Log In</a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </CascadingAuthenticationState>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+ 

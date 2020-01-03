@@ -1,0 +1,21 @@
+﻿@page "/admin/firstcertificate"
+@attribute [Authorize]
+@layout AdminLayout
+
+
+<p>@Admin.NoUserMessage</p>
+<p>Cargue su primer certificado</p>
+<br />
+<br />
+
+<UploadCertificate OnUploaded="@UploadCertificate_OnUploaded"></UploadCertificate>
+
+@code{
+    [CascadingParameter]
+    public AdminLayout Admin { get; set; }
+
+    void UploadCertificate_OnUploaded()
+    {
+        Admin.LoadingAgain();
+    }
+}

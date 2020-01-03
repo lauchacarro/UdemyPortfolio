@@ -1,0 +1,30 @@
+﻿@page "/admin/add"
+@layout AdminLayout
+@attribute [Authorize]
+@inject NavigationManager Navigation
+
+
+<p>Agregar un nuevo Certificado</p>
+
+<UploadCertificate OnUploaded="@UploadCertificate_OnUploaded"></UploadCertificate>
+
+@code{
+    [CascadingParameter]
+    public AdminLayout Admin { get; set; }
+    protected override void OnInitialized()
+    {
+        if (Admin.User == null)
+        {
+            Navigation.NavigateTo("/Admin");
+        }
+        else
+        {
+            base.OnInitialized();
+        }
+    }
+
+    void UploadCertificate_OnUploaded()
+    {
+        Navigation.NavigateTo("/Admin/Certificates");
+    }
+}
