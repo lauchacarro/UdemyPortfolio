@@ -31,9 +31,11 @@ jobs:
         dotnet-version: '3.1.100' # SDK Version to use.
     - name: build release
       run:  dotnet publish -o app
-        
+      
+    - name: Create symbolic link DockerFile
+      run: ln -s UdemyPortfolio.Web/Dockerfile Dockerfile
+      
     - name: herokuPush
-      workdir: src
       uses: actions/heroku@master
       env:
         MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
