@@ -17,15 +17,17 @@
 
     <div class="py-5">
 
-        <h3 class="font-weight-bold mb-0">Certificados</h3>
         @if (User != null)
         {
+            <h3 class="font-weight-bold mb-0">Certificados</h3>
+
             <p class="font-italic text-muted mb-4">Estos son los cursos que @User.Title completó.</p>
+
+            <div class="row">
+                <Search OnChange="@Search_HandleChange"></Search>
+            </div>
         }
 
-        <div class="row">
-            <Search OnChange="@Search_HandleChange"></Search>
-        </div>
         <div class="row" name="row-certificates">
 
             @for (int i = 0; i < Certificates.Count; i++)
