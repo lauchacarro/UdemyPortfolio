@@ -87,3 +87,9 @@
                     .s128 .child .inner-form .row .input-field.first input.isFocus {
                         width: 100%;
                     }
+
+@media (max-width: 767.98px) {
+    .s128 .child {
+        max-width: 300px;
+    }
+}
