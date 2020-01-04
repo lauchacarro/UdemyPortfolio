@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 <div class="sidebar">
     <NavMenu />
 </div>
@@ -24,4 +25,12 @@
     </div>
 </div>
 
- 
+@code{
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("setTitle", "Udemy Portfolio");
+    }
+}
+
+

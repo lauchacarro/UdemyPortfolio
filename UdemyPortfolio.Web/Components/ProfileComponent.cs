@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 using UdemyPortfolio.Models;
 using UdemyPortfolio.Models.Validation;
@@ -16,6 +17,8 @@ namespace UdemyPortfolio.Web.Components
         protected NavigationManager Navigation { get; set; }
         [Inject]
         protected ICertificateService CertificateService { get; set; }
+        [Inject]
+        IJSRuntime JSRuntime { get; set; }
         [Parameter]
         public string Identifier { get; set; }
         public User User { get; set; }
@@ -47,6 +50,7 @@ namespace UdemyPortfolio.Web.Components
             {
                 ValidationResult<User> user = await CertificateService.GetUserAsync(Identifier);
                 User = user.Result;
+                await JSRuntime.InvokeVoidAsync("setTitle", User.Title + " | Udemy Portfolio");
                 this.StateHasChanged();
 
                 await foreach (Certificate certificate in CertificateService.GetCertificatesAsync(Identifier))
