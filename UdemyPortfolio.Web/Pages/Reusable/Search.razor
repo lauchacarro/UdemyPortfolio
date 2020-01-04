@@ -5,7 +5,7 @@
         <div class="inner-form">
             <div class="row">
                 <div class="input-field first" id="first">
-                    <input class="input" id="inputFocus" type="text" autocomplete="off" placeholder="Buscar" @onchange="@HandleChange" />
+                    <input class="input" id="inputFocus" type="text" autocomplete="off" placeholder="Buscar" @oninput="@HandleChange" />
                 </div>
             </div>
         </div>
@@ -15,8 +15,6 @@
 @code {
     [Parameter]
     public Action<string> OnChange { get; set; }
-
-    protected string SearchText { get; set; }
 
     void HandleChange(ChangeEventArgs e)
     {
