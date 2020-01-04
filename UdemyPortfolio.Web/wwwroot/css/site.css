@@ -179,6 +179,10 @@ app {
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
     }
+
+    .course-title {
+        font-size: 1.2rem;
+    }
 }
 
 @media (min-width: 768px) {

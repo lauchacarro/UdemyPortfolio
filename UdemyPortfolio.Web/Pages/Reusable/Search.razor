@@ -1,0 +1,25 @@
+﻿<link rel="stylesheet" type="text/css" href="/css/search.css">
+
+<div class="s128">
+    <div class="child">
+        <div class="inner-form">
+            <div class="row">
+                <div class="input-field first" id="first">
+                    <input class="input" id="inputFocus" type="text" autocomplete="off" placeholder="Buscar" @onchange="@HandleChange" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Action<string> OnChange { get; set; }
+
+    protected string SearchText { get; set; }
+
+    void HandleChange(ChangeEventArgs e)
+    {
+        OnChange(e.Value.ToString());
+    }
+}

@@ -14,13 +14,15 @@ namespace UdemyPortfolio.Web.Components.Admin
         protected ICertificateService CertificateService { get; set; }
         protected List<Certificate> Certificates { get; set; } = new List<Certificate>();
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-
-            await foreach (Certificate certificate in CertificateService.GetCertificatesAsync())
+            if (firstRender)
             {
-                Certificates.Add(certificate);
-                this.StateHasChanged();
+                await foreach (Certificate certificate in CertificateService.GetCertificatesAsync())
+                {
+                    Certificates.Add(certificate);
+                    this.StateHasChanged();
+                }
             }
         }
     }

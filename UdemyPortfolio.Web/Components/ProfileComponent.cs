@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
@@ -18,7 +19,27 @@ namespace UdemyPortfolio.Web.Components
         [Parameter]
         public string Identifier { get; set; }
         public User User { get; set; }
-        protected List<Certificate> Certificates { get; set; } = new List<Certificate>();
+        protected string SearchValue { get; set; }
+
+        private List<Certificate> _certificates = new List<Certificate>();
+
+        public List<Certificate> Certificates
+        {
+            get { return GetCertificates(); }
+            set { _certificates = value; }
+        }
+
+        private List<Certificate> GetCertificates()
+        {
+            if (string.IsNullOrWhiteSpace(SearchValue))
+            {
+                return _certificates;
+            }
+            else
+            {
+                return _certificates.Where(x => x.Course.Title.ToLower().Contains(SearchValue.ToLower())).ToList();
+            }
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -26,17 +47,20 @@ namespace UdemyPortfolio.Web.Components
             {
                 ValidationResult<User> user = await CertificateService.GetUserAsync(Identifier);
                 User = user.Result;
-                StateHasChanged();
+                this.StateHasChanged();
+
+                await foreach (Certificate certificate in CertificateService.GetCertificatesAsync(Identifier))
+                {
+                    _certificates.Add(certificate);
+                    this.StateHasChanged();
+                }
             }
         }
 
-        protected override async Task OnInitializedAsync()
+        protected void Search_HandleChange(string value)
         {
-            await foreach (Certificate certificate in CertificateService.GetCertificatesAsync(Identifier))
-            {
-                Certificates.Add(certificate);
-                this.StateHasChanged();
-            }
+            SearchValue = value;
+            this.StateHasChanged();
         }
     }
 }
