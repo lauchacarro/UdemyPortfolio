@@ -1,4 +1,4 @@
-﻿@inherits TableCertificateComponent
+﻿@inherits TableCertificatesComponent
 
 
 <div class="table-responsive">
@@ -16,20 +16,25 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < Certificates.Count; i++)
+            @for (int i = PageCertificates.FirstRowOnPage; i < PageCertificates.LastRowOnPage; i++)
             {
-                <tr>
-                    <th scope="row">@(i + 1) </th>
-                    <td>@Certificates[i].Code</td>
-                    <td><img src="@Certificates[i].Course.Image_240x135" /></td>
-                    <td>@Certificates[i].Course.Title</td>
-                    <td>@Certificates[i].Course.Content_info</td>
-                    <td>@Certificates[i].Completion_date</td>
-                    <td><a href="@Certificates[i].Long_url" target="_blank">Ver Certificado</a></td>
-                </tr>
+                if (i >= 0 && i < PageCertificates.Results.Count)
+                {
+                    <tr>
+                        <th scope="row">@(i + 1) </th>
+                        <td>@PageCertificates.Results[i].Code</td>
+                        <td><img src="@PageCertificates.Results[i].Course.Image_240x135" /></td>
+                        <td>@PageCertificates.Results[i].Course.Title</td>
+                        <td>@PageCertificates.Results[i].Course.Content_info</td>
+                        <td>@PageCertificates.Results[i].Completion_date</td>
+                        <td><a href="@PageCertificates.Results[i].Long_url" target="_blank">Ver Certificado</a></td>
+                    </tr>
+                }
             }
 
 
         </tbody>
     </table>
 </div>
+
+<Paginator Result="@PageCertificates" OnPageChanged="@HandlePageChanged"></Paginator>

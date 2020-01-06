@@ -1,0 +1,53 @@
+﻿@using UdemyPortfolio.Models.Paginator
+
+@if (Result != null && Result.RowCount > 1)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <button class="page-link" @onclick="@(() => PagerButtonClicked(Result.PreviewPage))" tabindex="-1">Previous</button>
+            </li>
+            @for (var i = StartIndex; i <= FinishIndex; i++)
+            {
+                var currentIndex = i;
+                @if (i == Result.CurrentPage)
+                {
+                    <li class="page-item">
+                        <button class="page-link focus">@i</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button @onclick="@(() => PagerButtonClicked(currentIndex))" class="page-link">@i</button>
+                    </li>
+                }
+            }
+            <li class="page-item">
+                <button class="page-link" @onclick="@(() => PagerButtonClicked(Result.NextPage))">Next</button>
+            </li>
+        </ul>
+    </nav>
+}
+@code {
+    [Parameter]
+    public PagedResultBase Result { get; set; }
+
+    [Parameter]
+    public Action<int> OnPageChanged { get; set; }
+
+    protected int StartIndex { get; private set; } = 0;
+    protected int FinishIndex { get; private set; } = 0;
+
+    protected override void OnParametersSet()
+    {
+        StartIndex = Math.Max(Result.CurrentPage - Result.PageSize, 1);
+        FinishIndex = Math.Min(Result.CurrentPage + Result.PageSize, Result.PageCount);
+        base.OnParametersSet();
+    }
+
+    protected void PagerButtonClicked(int page)
+    {
+        OnPageChanged?.Invoke(page);
+    }
+}

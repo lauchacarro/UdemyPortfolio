@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
 using UdemyPortfolio.Models;
+using UdemyPortfolio.Models.Paginator;
 using UdemyPortfolio.Services.Abstracts;
 
 namespace UdemyPortfolio.Web.Components.Admin
 {
-    public class TableCertificateComponent : ComponentBase
+    public class TableCertificatesComponent : ComponentBase
     {
         [Inject]
         protected ICertificateService CertificateService { get; set; }
-        protected List<Certificate> Certificates { get; set; } = new List<Certificate>();
+        protected PagedResult<Certificate> PageCertificates { get; set; } = new PagedResult<Certificate>();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -20,10 +20,17 @@ namespace UdemyPortfolio.Web.Components.Admin
             {
                 await foreach (Certificate certificate in CertificateService.GetCertificatesAsync())
                 {
-                    Certificates.Add(certificate);
+                    PageCertificates.Results.Add(certificate);
+                    PageCertificates.RowCount = PageCertificates.Results.Count;
                     this.StateHasChanged();
                 }
             }
+        }
+
+        protected void HandlePageChanged(int page)
+        {
+            PageCertificates.CurrentPage = page;
+            this.StateHasChanged();
         }
     }
 }
