@@ -12,7 +12,7 @@
                 <th scope="col">Título Curso</th>
                 <th scope="col">Info Curso</th>
                 <th scope="col">Fecha Finalización</th>
-                <th scope="col">Certificado</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +27,10 @@
                         <td>@CertificatePages[i].Course.Title</td>
                         <td>@CertificatePages[i].Course.Content_info</td>
                         <td>@CertificatePages[i].Completion_date</td>
-                        <td><a href="@CertificatePages[i].Long_url" target="_blank">Ver Certificado</a></td>
+                        <td>
+                            <DeleteCertificate CertificateCode="@CertificatePages[i].Code" OnDeleted="@Certificate_HandleDeleted" />
+                            <a class="right" target="_blank" href="@CertificatePages[i].Long_url"><span class="oi oi-link-intact" aria-hidden="true"></span></a>
+                        </td>
                     </tr>
                 }
             }

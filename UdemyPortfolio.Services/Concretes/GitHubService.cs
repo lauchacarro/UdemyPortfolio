@@ -39,6 +39,20 @@ namespace UdemyPortfolio.Services.Concretes
                                           _githubSetting.Branch));
         }
 
+        public async Task DeleteFileAsync(string path, string fileName)
+        {
+            IReadOnlyList<RepositoryContent> contents = await _client.Repository.Content.GetAllContents(_githubSetting.RepositoryID, Path.Combine(path, fileName));
+            RepositoryContent repositoryContent = contents.First();
+
+            await _client.Repository.Content.DeleteFile(
+                _githubSetting.RepositoryID,
+                    Path.Combine(path, fileName),
+                    new DeleteFileRequest($"Delete {fileName}",
+                                          repositoryContent.Sha,
+                                          _githubSetting.Branch)
+                    );
+        }
+
         public async Task<bool> ExistFileAsync(string path, string fileName)
         {
             FileContent fileContent = await GetFileContentAsync(path, fileName);

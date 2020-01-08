@@ -21,6 +21,14 @@ a, .btn-link {
     font-size: 1.5rem;
 }
 
+.right {
+    float: right;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -363,6 +371,12 @@ body {
                     .s128 .child .inner-form .row .input-field.first input.isFocus {
                         width: 100%;
                     }
+
+                .s128 .child .inner-form .row .input-field.first .link {
+                    margin-top: 15px;
+                    margin-left: 15px;
+                    font-size: 20px;
+                }
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {

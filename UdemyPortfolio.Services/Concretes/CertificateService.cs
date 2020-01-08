@@ -34,6 +34,14 @@ namespace UdemyPortfolio.Services.Concretes
             return validationResult;
         }
 
+        public async Task<Validation> DeleteCertificate(string certificateCode)
+        {
+            Validation validation = new Validation();
+            string certificatePath = _pathService.GetCertificateFolder();
+            await _githubService.DeleteFileAsync(certificatePath, certificateCode);
+            return validation;
+        }
+
         public async IAsyncEnumerable<Certificate> GetCertificatesAsync()
         {
             string certificatePath = _pathService.GetCertificateFolder();

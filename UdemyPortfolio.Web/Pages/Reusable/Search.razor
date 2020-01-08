@@ -1,10 +1,14 @@
-﻿
+﻿@inject NavigationManager Navigation
+@using System.Web
+@using System.Collections.Specialized
+
 <div class="s128">
     <div class="child">
         <div class="inner-form">
             <div class="row">
                 <div class="input-field first" id="first">
-                    <input class="input" id="inputFocus" type="text" autocomplete="off" placeholder="Buscar" @oninput="@HandleChange" />
+                    <input class="input" id="inputFocus" type="text" autocomplete="off" placeholder="Buscar" @bind="@SearchValue" @oninput="@Search_HandleChange" />
+                    <span @onclick="@Link_HandleClick" class="oi oi-link-intact link pointer" aria-hidden="true"></span>
                 </div>
             </div>
         </div>
@@ -13,10 +17,31 @@
 
 @code {
     [Parameter]
-    public Action<string> OnChange { get; set; }
+    public Action<string> Search_OnChange { get; set; }
 
-    void HandleChange(ChangeEventArgs e)
+    string SearchValue { get; set; }
+
+    void Search_HandleChange(ChangeEventArgs e)
     {
-        OnChange(e.Value.ToString());
+        Search_OnChange(e.Value.ToString());
     }
+
+    void Link_HandleClick()
+    {
+        Uri uri = new Uri(Navigation.Uri);
+        string newUri = $"{uri.AbsolutePath}?search={SearchValue}";
+        Navigation.NavigateTo(newUri);
+    }
+
+    protected override void OnInitialized()
+    {
+        Uri uri = new Uri(Navigation.Uri);
+        NameValueCollection queries = HttpUtility.ParseQueryString(uri.Query);
+        if(queries.HasKeys() && queries.AllKeys.Contains("search"))
+        {
+            SearchValue = queries.Get("search") ?? string.Empty;
+            Search_OnChange(SearchValue);
+        }
+    }
+
 }

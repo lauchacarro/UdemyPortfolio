@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
@@ -12,6 +14,9 @@ namespace UdemyPortfolio.Web.Components.Admin
     {
         [Inject]
         protected ICertificateService CertificateService { get; set; }
+        [Inject]
+        protected NavigationManager Navigation { get; set; }
+
         protected CertificatePaged CertificatePages { get; set; } = new CertificatePaged();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -29,6 +34,18 @@ namespace UdemyPortfolio.Web.Components.Admin
         protected void Paginator_HandleChanged(int page)
         {
             CertificatePages.CurrentPage = page;
+            this.StateHasChanged();
+        }
+
+        protected void Certificate_HandleDeleted(string certificateCode)
+        {
+            List<Certificate> certificatesFiltered = new List<Certificate>();
+            
+            IEnumerable<Certificate> enumerableCertificatesFiltered = CertificatePages.Where(x => x.Code != certificateCode);
+            certificatesFiltered.AddRange(enumerableCertificatesFiltered);
+
+            CertificatePages.Clear();
+            CertificatePages.Add(certificatesFiltered);
             this.StateHasChanged();
         }
     }

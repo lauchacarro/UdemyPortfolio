@@ -2,45 +2,45 @@
 @layout ProfileLayout
 @inherits ProfileComponent
 
-    <div class="container py-5 bg-white">
+<div class="container py-5 bg-white">
 
-        <header class="text-center">
-            <a href="/" class="without-color">
-                <h1 class="display-4 font-weight-bold">Udemy Portfolio</h1>
-            </a>
+    <header class="text-center">
+        <a href="/" class="without-color">
+            <h1 class="display-4 font-weight-bold">Udemy Portfolio</h1>
+        </a>
 
-            @if (User != null)
-            {
-                <UserPanel User="@User"></UserPanel>
-            }
-        </header>
+        @if (User != null)
+        {
+            <UserPanel User="@User"></UserPanel>
+        }
+    </header>
 
-        <div class="py-5">
+    <div class="py-5">
 
-            @if (User != null)
-            {
-                <h3 class="font-weight-bold mb-0">Certificados</h3>
+        @if (User != null)
+        {
+            <h3 class="font-weight-bold mb-0">Certificados</h3>
 
-                <p class="font-italic text-muted mb-4">Estos son los cursos que @User.Title completó.</p>
+            <p class="font-italic text-muted mb-4">Estos son los 34 cursos que @User.Title completó.</p>
 
-                <div class="row">
-                    <Search OnChange="@Search_HandleChange"></Search>
-                </div>
-            }
-
-            <div class="row" name="row-certificates">
-
-                @for (int i = CertificatePages.FirstRowOnPage; i < CertificatePages.LastRowOnPage; i++)
-                {
-                    if (i >= 0 && i < CertificatePages.Count)
-                    {
-                        <CertificatePanel Certificate="@CertificatePages[i]"></CertificatePanel>
-                    }
-                }
-
+            <div class="row">
+                <Search Search_OnChange="@Search_HandleChange"></Search>
             </div>
+        }
+
+        <div class="row" name="row-certificates">
+
+            @for (int i = CertificatePages.FirstRowOnPage; i < CertificatePages.LastRowOnPage; i++)
+            {
+                if (i >= 0 && i < CertificatePages.Count)
+                {
+                    <CertificatePanel Certificate="@CertificatePages[i]"></CertificatePanel>
+                }
+            }
+
         </div>
-
-        <Paginator Result="@CertificatePages" OnPageChanged="@Paginator_HandleChanged"></Paginator>
-
     </div>
+
+    <Paginator Result="@CertificatePages" OnPageChanged="@Paginator_HandleChanged"></Paginator>
+
+</div>

@@ -14,5 +14,7 @@ namespace UdemyPortfolio.Services.Abstracts
         IAsyncEnumerable<Certificate> GetCertificatesAsync();
         IAsyncEnumerable<Certificate> GetCertificatesAsync(string identifier);
         Task<ValidationResult<bool>> CertificateIsFromSameUser(Certificate certificate);
+        Task<Validation> DeleteCertificate(string certificateCode);
+
     }
 }

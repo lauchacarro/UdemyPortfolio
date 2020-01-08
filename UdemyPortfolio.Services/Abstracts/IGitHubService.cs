@@ -11,5 +11,7 @@ namespace UdemyPortfolio.Services.Abstracts
         Task<FileContent> GetFileContentAsync(string path, string fileName);
         Task<bool> ExistFileAsync(string path, string fileName);
         Task<IEnumerable<FileContent>> GetAllFilesAsync(string path);
+        Task DeleteFileAsync(string path, string fileName);
+
     }
 }
