@@ -2,10 +2,10 @@
 
 namespace UdemyPortfolio.Models.Paginator
 {
-    public abstract class PagedResultBase
+    public class PagedResultBase
     {
         public int CurrentPage { get; set; }
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; protected set; } = 5;
         public int RowCount { get; set; }
 
         public int PageCount

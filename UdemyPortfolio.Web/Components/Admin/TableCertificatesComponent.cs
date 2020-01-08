@@ -12,7 +12,7 @@ namespace UdemyPortfolio.Web.Components.Admin
     {
         [Inject]
         protected ICertificateService CertificateService { get; set; }
-        protected PagedResult<Certificate> CertificatePages { get; set; } = new PagedResult<Certificate>();
+        protected CertificatePaged CertificatePages { get; set; } = new CertificatePaged();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -20,14 +20,13 @@ namespace UdemyPortfolio.Web.Components.Admin
             {
                 await foreach (Certificate certificate in CertificateService.GetCertificatesAsync())
                 {
-                    CertificatePages.Results.Add(certificate);
-                    CertificatePages.RowCount = CertificatePages.Results.Count;
+                    CertificatePages.Add(certificate);
                     this.StateHasChanged();
                 }
             }
         }
 
-        protected void HandlePageChanged(int page)
+        protected void Paginator_HandleChanged(int page)
         {
             CertificatePages.CurrentPage = page;
             this.StateHasChanged();

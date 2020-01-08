@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using UdemyPortfolio.Models;
+using UdemyPortfolio.Models.Paginator;
 using UdemyPortfolio.Models.Validation;
 using UdemyPortfolio.Services.Abstracts;
 
@@ -24,15 +25,14 @@ namespace UdemyPortfolio.Web.Components
         public User User { get; set; }
         protected string SearchValue { get; set; }
 
-        private List<Certificate> _certificates = new List<Certificate>();
-
-        public List<Certificate> Certificates
+        private CertificatePaged _certificates = new CertificatePaged();
+        protected CertificatePaged CertificatePages
         {
             get { return GetCertificates(); }
             set { _certificates = value; }
         }
 
-        private List<Certificate> GetCertificates()
+        private CertificatePaged GetCertificates()
         {
             if (string.IsNullOrWhiteSpace(SearchValue))
             {
@@ -40,7 +40,10 @@ namespace UdemyPortfolio.Web.Components
             }
             else
             {
-                return _certificates.Where(x => x.Course.Title.ToLower().Contains(SearchValue.ToLower())).ToList();
+                IEnumerable<Certificate> filteredCertificates = _certificates.Where(x => x.Course.Title.ToLower().Contains(SearchValue.ToLower()));
+                CertificatePaged filteredCertificatePages = (CertificatePaged)_certificates.Clone();
+                filteredCertificatePages.Add(filteredCertificates);
+                return filteredCertificatePages;
             }
         }
 
@@ -64,6 +67,13 @@ namespace UdemyPortfolio.Web.Components
         protected void Search_HandleChange(string value)
         {
             SearchValue = value;
+            _certificates.CurrentPage = 1;
+            this.StateHasChanged();
+        }
+
+        protected void Paginator_HandleChanged(int page)
+        {
+            _certificates.CurrentPage = page;
             this.StateHasChanged();
         }
     }

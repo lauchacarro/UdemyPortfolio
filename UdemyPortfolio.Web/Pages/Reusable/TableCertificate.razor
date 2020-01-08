@@ -18,16 +18,16 @@
         <tbody>
             @for (int i = CertificatePages.FirstRowOnPage; i < CertificatePages.LastRowOnPage; i++)
             {
-                if (i >= 0 && i < CertificatePages.Results.Count)
+                if (i >= 0 && i < CertificatePages.Count)
                 {
                     <tr>
                         <th scope="row">@(i + 1) </th>
-                        <td>@CertificatePages.Results[i].Code</td>
-                        <td><img src="@CertificatePages.Results[i].Course.Image_240x135" /></td>
-                        <td>@CertificatePages.Results[i].Course.Title</td>
-                        <td>@CertificatePages.Results[i].Course.Content_info</td>
-                        <td>@CertificatePages.Results[i].Completion_date</td>
-                        <td><a href="@CertificatePages.Results[i].Long_url" target="_blank">Ver Certificado</a></td>
+                        <td>@CertificatePages[i].Code</td>
+                        <td><img src="@CertificatePages[i].Course.Image_240x135" /></td>
+                        <td>@CertificatePages[i].Course.Title</td>
+                        <td>@CertificatePages[i].Course.Content_info</td>
+                        <td>@CertificatePages[i].Completion_date</td>
+                        <td><a href="@CertificatePages[i].Long_url" target="_blank">Ver Certificado</a></td>
                     </tr>
                 }
             }
@@ -37,4 +37,4 @@
     </table>
 </div>
 
-<Paginator Result="@CertificatePages" OnPageChanged="@HandlePageChanged"></Paginator>
+<Paginator Result="@CertificatePages" OnPageChanged="@Paginator_HandleChanged"></Paginator>
