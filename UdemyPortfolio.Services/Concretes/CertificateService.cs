@@ -45,7 +45,7 @@ namespace UdemyPortfolio.Services.Concretes
         public async IAsyncEnumerable<Certificate> GetCertificatesAsync()
         {
             string certificatePath = _pathService.GetCertificateFolder();
-            IEnumerable<FileContent> certificateCodes = await _githubService.GetAllFilesAsync(certificatePath);
+            IEnumerable<FileContent> certificateCodes = await _githubService.GetAllFilesAsync(certificatePath) ?? new List<FileContent>();
 
             foreach (FileContent file in certificateCodes)
             {
@@ -57,7 +57,7 @@ namespace UdemyPortfolio.Services.Concretes
         public async IAsyncEnumerable<Certificate> GetCertificatesAsync(string identifier)
         {
             string certificatePath = _pathService.GetCertificateFolder(identifier);
-            IEnumerable<FileContent> certificateCodes = await _githubService.GetAllFilesAsync(certificatePath);
+            IEnumerable<FileContent> certificateCodes = await _githubService.GetAllFilesAsync(certificatePath) ?? new List<FileContent>();
 
             foreach (FileContent file in certificateCodes)
             {

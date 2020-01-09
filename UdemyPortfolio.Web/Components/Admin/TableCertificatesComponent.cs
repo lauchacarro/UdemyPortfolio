@@ -40,7 +40,7 @@ namespace UdemyPortfolio.Web.Components.Admin
         protected void Certificate_HandleDeleted(string certificateCode)
         {
             List<Certificate> certificatesFiltered = new List<Certificate>();
-            
+
             IEnumerable<Certificate> enumerableCertificatesFiltered = CertificatePages.Where(x => x.Code != certificateCode);
             certificatesFiltered.AddRange(enumerableCertificatesFiltered);
 
@@ -48,5 +48,7 @@ namespace UdemyPortfolio.Web.Components.Admin
             CertificatePages.Add(certificatesFiltered);
             this.StateHasChanged();
         }
+
+        protected int Count { get { return CertificatePages.Count; } }
     }
 }

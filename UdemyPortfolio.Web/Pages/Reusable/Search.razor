@@ -28,16 +28,19 @@
 
     void Link_HandleClick()
     {
-        Uri uri = new Uri(Navigation.Uri);
-        string newUri = $"{uri.AbsolutePath}?search={SearchValue}";
-        Navigation.NavigateTo(newUri);
+        if (!string.IsNullOrWhiteSpace(SearchValue))
+        {
+            Uri uri = new Uri(Navigation.Uri);
+            string newUri = $"{uri.AbsolutePath}?search={SearchValue}";
+            Navigation.NavigateTo(newUri);
+        }
     }
 
     protected override void OnInitialized()
     {
         Uri uri = new Uri(Navigation.Uri);
         NameValueCollection queries = HttpUtility.ParseQueryString(uri.Query);
-        if(queries.HasKeys() && queries.AllKeys.Contains("search"))
+        if (queries.HasKeys() && queries.AllKeys.Contains("search"))
         {
             SearchValue = queries.Get("search") ?? string.Empty;
             Search_OnChange(SearchValue);

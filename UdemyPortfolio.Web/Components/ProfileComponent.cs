@@ -76,5 +76,7 @@ namespace UdemyPortfolio.Web.Components
             _certificates.CurrentPage = page;
             this.StateHasChanged();
         }
+
+        protected int Count { get { return _certificates.Count; } }
     }
 }
