@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 using UdemyPortfolio.Services.Abstracts;
 
-namespace UdemyPortfolio.Web.Components.Admin
+namespace UdemyPortfolio.Web.Sources.Base
 {
     public class DeleteCertificateComponent : ComponentBase
     {

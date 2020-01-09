@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
-using UdemyPortfolio.Models;
 using UdemyPortfolio.Models.Paginator;
+using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Services.Abstracts;
 
-namespace UdemyPortfolio.Web.Components.Admin
+namespace UdemyPortfolio.Web.Sources.Base
 {
     public class TableCertificatesComponent : ComponentBase
     {

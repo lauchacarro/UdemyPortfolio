@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UdemyPortfolio.Models
+namespace UdemyPortfolio.Models.Udemy
 {
     public class Certificate
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using UdemyPortfolio.Models;
+using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Models.Validation;
 
 namespace UdemyPortfolio.Services.Abstracts

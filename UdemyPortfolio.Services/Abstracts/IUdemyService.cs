@@ -1,4 +1,4 @@
-﻿using UdemyPortfolio.Models;
+﻿using UdemyPortfolio.Models.Udemy;
 
 namespace UdemyPortfolio.Services.Abstracts
 {

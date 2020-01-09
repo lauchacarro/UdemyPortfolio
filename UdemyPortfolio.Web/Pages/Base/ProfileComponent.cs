@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-using UdemyPortfolio.Models;
 using UdemyPortfolio.Models.Paginator;
+using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Models.Validation;
 using UdemyPortfolio.Services.Abstracts;
 
-namespace UdemyPortfolio.Web.Components
+namespace UdemyPortfolio.Web.Pages.Base
 {
     public class ProfileComponent : ComponentBase
     {

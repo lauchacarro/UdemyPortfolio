@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using UdemyPortfolio.Models;
 using UdemyPortfolio.Models.GitHub;
+using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Models.Validation;
 using UdemyPortfolio.Services.Abstracts;
 

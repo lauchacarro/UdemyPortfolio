@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using UdemyPortfolio.Models.Validation;
 using UdemyPortfolio.Services.Abstracts;
 
-namespace UdemyPortfolio.Web.Components.Admin
+namespace UdemyPortfolio.Web.Sources.Base
 {
     public class UploadCertificateComponent : ComponentBase
     {

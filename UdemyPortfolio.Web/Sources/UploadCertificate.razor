@@ -1,0 +1,21 @@
+﻿@inherits UploadCertificateComponent
+
+<div class="form-group align-items-center">
+    <label class="sr-only">Certificado</label>
+    <input type="text" class="form-control @((InvalidUrl? "invalid" : string.Empty))" autocomplete="off" @bind="@UrlCertificate" placeholder="Certificado">
+
+    <small class="form-text text-muted">
+        Ej: https://www.udemy.com/certificate/AA-00000000
+    </small>
+
+    @if (InvalidUrl)
+    {
+        <div class="validation-message">
+            @ErrorMessage
+        </div>
+    }
+
+    <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary" @onclick="@Button_OnClick">Subir</button>
+    </div>
+</div>

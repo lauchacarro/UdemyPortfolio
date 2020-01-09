@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using UdemyPortfolio.Models.Udemy;
+
 namespace UdemyPortfolio.Models.Paginator
 {
     public class CertificatePaged : PagedResultBase, IList<Certificate>, ICloneable
@@ -60,8 +62,10 @@ namespace UdemyPortfolio.Models.Paginator
         IEnumerator IEnumerable.GetEnumerator() => _certificates.GetEnumerator();
         public object Clone()
         {
-            CertificatePaged clone = new CertificatePaged();
-            clone.CurrentPage = base.CurrentPage;
+            CertificatePaged clone = new CertificatePaged
+            {
+                CurrentPage = base.CurrentPage
+            };
             return clone;
         }
     }

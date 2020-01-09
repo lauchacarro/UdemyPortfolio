@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
-using UdemyPortfolio.Models;
+using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Models.Validation;
 using UdemyPortfolio.Services.Abstracts;
 
-namespace UdemyPortfolio.Web.Components
+namespace UdemyPortfolio.Web.Shared.Base
 {
     public class AdminLayoutComponent : LayoutComponentBase
     {

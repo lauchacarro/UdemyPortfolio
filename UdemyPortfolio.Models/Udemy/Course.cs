@@ -1,4 +1,4 @@
-﻿namespace UdemyPortfolio.Models
+﻿namespace UdemyPortfolio.Models.Udemy
 {
     public class Course
     {

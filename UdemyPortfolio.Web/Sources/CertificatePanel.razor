@@ -1,4 +1,6 @@
-﻿<div class="col-lg-4 mb-3 mb-lg-0">
+﻿@using UdemyPortfolio.Models.Udemy
+
+<div class="col-lg-4 mb-3 mb-lg-0">
     <div class="hover hover-1 text-white rounded">
         <a href="@Certificate.Long_url" target="_blank" class="without-color">
             <img src="@Certificate.Course.Image_480x270" alt="@Certificate.Course.Title">
@@ -12,5 +14,5 @@
 
 @code {
     [Parameter]
-    public UdemyPortfolio.Models.Certificate Certificate { get; set; }
+    public Certificate Certificate { get; set; }
 }

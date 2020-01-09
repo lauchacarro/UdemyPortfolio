@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-using UdemyPortfolio.Models;
+using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Services.Abstracts;
 
 namespace UdemyPortfolio.Services.Concretes
