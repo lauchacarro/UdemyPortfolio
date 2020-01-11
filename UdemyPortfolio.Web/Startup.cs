@@ -40,6 +40,7 @@ namespace UdemyPortfolio.Web
             services.AddSingleton<IGitHubService, GitHubService>();
             services.AddSingleton<IUdemyService, UdemyService>();
             services.AddSingleton<ICertificateService, CertificateService>();
+            services.AddSingleton<ICertificateExcelService, CertificateExcelService>();
             services.AddSingleton<IPathService, PathService>();
 
             services.AddHttpContextAccessor();

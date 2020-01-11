@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +20,8 @@ namespace UdemyPortfolio.Web.Pages.Base
         protected NavigationManager Navigation { get; set; }
         [Inject]
         protected ICertificateService CertificateService { get; set; }
+        [Inject]
+        protected ICertificateExcelService CertificateExcelService { get; set; }
         [Inject]
         IJSRuntime JSRuntime { get; set; }
         [Parameter]
@@ -75,6 +79,20 @@ namespace UdemyPortfolio.Web.Pages.Base
         {
             _certificates.CurrentPage = page;
             this.StateHasChanged();
+        }
+
+        protected async Task ButtonExcel_HandleClick()
+        {
+            Stream stream = CertificateExcelService.ExportExcel(_certificates);
+            byte[] bytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                bytes = memoryStream.ToArray();
+            }
+            string base64 = Convert.ToBase64String(bytes);
+            await JSRuntime.InvokeAsync<object>("fileSaveAs", $"{User.Title}'s Certificates.xlsx", base64);
+
         }
 
         protected int Count { get { return _certificates.Count; } }

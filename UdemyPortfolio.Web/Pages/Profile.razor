@@ -23,8 +23,12 @@
 
             <p class="font-italic text-muted mb-4">@User.Title tiene un total de @Count cursos completados.</p>
 
-            <div class="row">
+            <div class="row justify-content-between">
                 <Search Search_OnChange="@Search_HandleChange"></Search>
+                <div style="margin-right:30px">
+                    <span class="pointer" @onclick="@ButtonExcel_HandleClick"><img src="https://img.icons8.com/color/48/000000/microsoft-excel-2019--v1.png"></span>
+
+                </div>
             </div>
         }
 
