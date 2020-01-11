@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Rewrite;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Rewrite;
 
 using UdemyPortfolio.Web.Rules;
 
@@ -10,6 +11,15 @@ namespace UdemyPortfolio.Web.Extensions
         {
             options.Rules.Add(new RedirectToProxiedHttpsRule());
             return options;
+        }
+
+        public static IApplicationBuilder UseRedirectToProxiedHttps(this IApplicationBuilder app)
+        {
+            var options = new RewriteOptions()
+               .AddRedirectToProxiedHttps()
+               .AddRedirect("(.*)/$", "$1");  // remove trailing slash
+            app.UseRewriter(options);
+            return app;
         }
     }
 }
