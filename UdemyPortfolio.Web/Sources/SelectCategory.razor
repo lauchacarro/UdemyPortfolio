@@ -1,0 +1,20 @@
+﻿<select class="browser-default custom-select" style="width:auto" @onchange="@Select_HandleChangee">
+    <option value="0" selected>Todas las categorias</option>
+    @for (int i = 0; i < Categories.Count(); i++)
+    {
+        <option value="@(i  + 1)">@Categories.ElementAt(i)</option>
+    }
+</select>
+
+@code {
+    [Parameter]
+    public IEnumerable<string> Categories { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnChange { get; set; }
+
+    async Task Select_HandleChangee(ChangeEventArgs eventArgs)
+    {
+        await OnChange.InvokeAsync(eventArgs.Value.ToString());
+    }
+}

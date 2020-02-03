@@ -1,0 +1,17 @@
+﻿@inherits UploadCategoryComponent
+
+<div class="form-group align-items-center">
+    <label class="sr-only">Categoria</label>
+    <input type="text" class="form-control @((InvalidCategory? "invalid" : string.Empty))" autocomplete="off" @bind="@CategoryName" placeholder="Categoria">
+
+    @if (InvalidCategory)
+    {
+        <div class="validation-message">
+            @ErrorMessage
+        </div>
+    }
+
+    <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary" @onclick="@Button_OnClick">Subir</button>
+    </div>
+</div>

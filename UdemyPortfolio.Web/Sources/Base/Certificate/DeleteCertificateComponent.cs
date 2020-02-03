@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
@@ -15,12 +14,12 @@ namespace UdemyPortfolio.Web.Sources.Base
         [Parameter]
         public string CertificateCode { get; set; }
         [Parameter]
-        public Action<string> OnDeleted { get; set; }
+        public EventCallback<string> OnDeleted { get; set; }
 
         protected async Task Button_OnClick()
         {
             await CertificateService.DeleteCertificate(CertificateCode);
-            OnDeleted(CertificateCode);
+            await OnDeleted.InvokeAsync(CertificateCode);
         }
     }
 }

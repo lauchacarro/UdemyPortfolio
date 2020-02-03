@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
+using UdemyPortfolio.Models.Categories;
 using UdemyPortfolio.Models.Paginator;
 using UdemyPortfolio.Models.Udemy;
 using UdemyPortfolio.Models.Validation;
@@ -21,6 +22,8 @@ namespace UdemyPortfolio.Web.Pages.Base
         [Inject]
         protected ICertificateService CertificateService { get; set; }
         [Inject]
+        protected ICategoryService CategoryService { get; set; }
+        [Inject]
         protected ICertificateExcelService CertificateExcelService { get; set; }
         [Inject]
         IJSRuntime JSRuntime { get; set; }
@@ -28,8 +31,10 @@ namespace UdemyPortfolio.Web.Pages.Base
         public string Identifier { get; set; }
         public User User { get; set; }
         protected string SearchValue { get; set; }
+        protected int ActualCategoryIndex { get; set; } = -1;
 
         private CertificatePaged _certificates = new CertificatePaged();
+        protected IList<Category> Categories { get; set; } = new List<Category>();
         protected CertificatePaged CertificatePages
         {
             get { return GetCertificates(); }
@@ -38,17 +43,10 @@ namespace UdemyPortfolio.Web.Pages.Base
 
         private CertificatePaged GetCertificates()
         {
-            if (string.IsNullOrWhiteSpace(SearchValue))
-            {
-                return _certificates;
-            }
-            else
-            {
-                IEnumerable<Certificate> filteredCertificates = _certificates.Where(x => x.Course.Title.ToLower().Contains(SearchValue.ToLower()));
-                CertificatePaged filteredCertificatePages = (CertificatePaged)_certificates.Clone();
-                filteredCertificatePages.Add(filteredCertificates);
-                return filteredCertificatePages;
-            }
+            IEnumerable<Certificate> filteredCertificates = _certificates.Where(x => (string.IsNullOrWhiteSpace(SearchValue) || x.Course.Title.ToLower().Contains(SearchValue.ToLower())) && (ActualCategoryIndex == -1 || Categories[ActualCategoryIndex].CertificateCodes.Contains(x.Code)));
+            CertificatePaged filteredCertificatePages = (CertificatePaged)_certificates.Clone();
+            filteredCertificatePages.Add(filteredCertificates);
+            return filteredCertificatePages;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -59,6 +57,11 @@ namespace UdemyPortfolio.Web.Pages.Base
                 User = user.Result;
                 await JSRuntime.InvokeVoidAsync("setTitle", User.Title + " | Udemy Portfolio");
                 this.StateHasChanged();
+
+                await foreach (Category category in CategoryService.GetCategoriesAsync(Identifier))
+                {
+                    Categories.Add(category);
+                }
 
                 await foreach (Certificate certificate in CertificateService.GetCertificatesAsync(Identifier))
                 {
@@ -93,6 +96,12 @@ namespace UdemyPortfolio.Web.Pages.Base
             string base64 = Convert.ToBase64String(bytes);
             await JSRuntime.InvokeAsync<object>("fileSaveAs", $"{User.Title}'s Certificates.xlsx", base64);
 
+        }
+
+        protected void Category_HandleChanged(string categoryIndex)
+        {
+            ActualCategoryIndex = int.Parse(categoryIndex) - 1;
+            this.StateHasChanged();
         }
 
         protected int Count { get { return _certificates.Count; } }

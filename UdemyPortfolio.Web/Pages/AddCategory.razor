@@ -1,20 +1,16 @@
-﻿@page "/admin/certificates"
+﻿@page "/admin/addcategory"
+@layout AdminLayout
 @attribute [Authorize]
 @inject NavigationManager Navigation
-@layout AdminLayout
 
-@if (Admin.User != null)
-{
-    <a class="btn btn-primary" role="button" href="/Profile/@Admin.Identifier" target="_blank">Comparte Tu Portfolio</a>
-    <a class="btn btn-secondary" role="button" href="/Admin/Categories">Ver Categorias</a>
 
-    <TableCertificate></TableCertificate>
-}
+<p>Agregar un nueva Categoria</p>
+
+<UploadCategory OnUploaded="@UploadCategory_OnUploaded"/>
 
 @code{
     [CascadingParameter]
     public AdminLayout Admin { get; set; }
-
     protected override void OnInitialized()
     {
         if (Admin.User == null)
@@ -25,5 +21,10 @@
         {
             base.OnInitialized();
         }
+    }
+
+    void UploadCategory_OnUploaded()
+    {
+        Navigation.NavigateTo("/Admin/Categories");
     }
 }

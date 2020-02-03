@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Options;
 
 using Octokit;
+
+using RestSharp;
 
 using UdemyPortfolio.Models.GitHub;
 using UdemyPortfolio.Models.Settings;
@@ -53,6 +56,21 @@ namespace UdemyPortfolio.Services.Concretes
                     );
         }
 
+        public async Task UpdateFileAsync(string path, string fileName, string content)
+        {
+            IReadOnlyList<RepositoryContent> contents = await _client.Repository.Content.GetAllContents(_githubSetting.RepositoryID, Path.Combine(path, fileName));
+            RepositoryContent repositoryContent = contents.First();
+
+            await _client.Repository.Content.UpdateFile(
+                _githubSetting.RepositoryID,
+                    Path.Combine(path, fileName),
+                    new UpdateFileRequest($"Update {fileName}",
+                                          content,
+                                          repositoryContent.Sha,
+                                          _githubSetting.Branch)
+                    );
+        }
+
         public async Task<bool> ExistFileAsync(string path, string fileName)
         {
             FileContent fileContent = await GetFileContentAsync(path, fileName);
@@ -63,12 +81,16 @@ namespace UdemyPortfolio.Services.Concretes
         {
             try
             {
+                HttpClient httpClient = new HttpClient();
                 IReadOnlyList<RepositoryContent> contents = await _client.Repository.Content.GetAllContents(_githubSetting.RepositoryID, path);
+
                 var files = contents.Where(x => x.Type == new StringEnum<ContentType>(ContentType.File)).Select(x => new FileContent()
                 {
                     Name = x.Name,
-                    Content = x.Content
+                    Content = x.Content,
+                    DownloadUrl = x.DownloadUrl
                 });
+
                 return files;
             }
             catch (Octokit.NotFoundException)
@@ -86,8 +108,38 @@ namespace UdemyPortfolio.Services.Concretes
                 return new FileContent()
                 {
                     Name = content.Name,
-                    Content = content.Content
+                    Content = content.Content,
+                    DownloadUrl = content.DownloadUrl
                 };
+            }
+            catch (Octokit.NotFoundException)
+            {
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<FileContent>> GetAllFilesWithContentAsync(string path)
+        {
+            try
+            {
+                IReadOnlyList<RepositoryContent> contents = await _client.Repository.Content.GetAllContents(_githubSetting.RepositoryID, path);
+
+                var files = contents.Where(x => x.Type == new StringEnum<ContentType>(ContentType.File)).Select(x => new FileContent()
+                {
+                    Name = x.Name,
+                    Content = x.Content,
+                    DownloadUrl = x.DownloadUrl
+                }).ToList();
+
+                for (int i = 0; i < files.Count(); i++)
+                {
+
+                    RestClient client = new RestClient();
+                    RestRequest request = new RestRequest(files[i].DownloadUrl);
+                    files[i].Content = client.Get(request).Content;
+                }
+
+                return files;
             }
             catch (Octokit.NotFoundException)
             {

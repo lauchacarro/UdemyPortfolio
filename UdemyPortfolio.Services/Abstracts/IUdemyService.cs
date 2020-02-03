@@ -1,10 +1,12 @@
-﻿using UdemyPortfolio.Models.Udemy;
+﻿using System.Threading.Tasks;
+
+using UdemyPortfolio.Models.Udemy;
 
 namespace UdemyPortfolio.Services.Abstracts
 {
     public interface IUdemyService
     {
-        User GetUserInfo(string certificateCode);
-        Certificate GetCertificate(string certificateCode);
+        Task<User> GetUserInfo(string certificateCode);
+        Task<Certificate> GetCertificate(string certificateCode);
     }
 }

@@ -22,6 +22,18 @@ namespace UdemyPortfolio.Services.Concretes
             _githubSetting = gitHubSettingOptions?.Value ?? throw new ArgumentNullException(nameof(gitHubSettingOptions));
         }
 
+        public string GetCategoryFolder()
+        {
+            string identifierPath = GetUserFolder();
+            return Path.Combine(identifierPath, "categories");
+        }
+
+        public string GetCategoryFolder(string identifier)
+        {
+            string identifierPath = GetUserFolder(identifier);
+            return Path.Combine(identifierPath, "categories");
+        }
+
         public string GetCertificateFolder()
         {
             string identifierPath = GetUserFolder();

@@ -1,0 +1,86 @@
+﻿@using UdemyPortfolio.Models.Categories
+@using UdemyPortfolio.Models.Udemy
+@using UdemyPortfolio.Services.Abstracts
+@inherits TableCertificatesComponent
+@inject ICategoryService CategoryService
+
+<p class="font-italic text-muted mb-4">La Categoria '@CategoryName' tiene @CertificatesAdded.Count Certificados.</p>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Imagen Curso</th>
+                <th scope="col">Título Curso</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = CertificatePages.FirstRowOnPage; i < CertificatePages.LastRowOnPage; i++)
+            {
+                if (i >= 0 && i < CertificatePages.Count)
+                {
+                    <tr>
+                        <th scope="row">@(i + 1) </th>
+                        <td>@CertificatePages[i].Code</td>
+                        <td><img src="@CertificatePages[i].Course.Image_240x135" /></td>
+                        <td>@CertificatePages[i].Course.Title</td>
+                        <td>
+                            <AddRemoveCertificateCategory OnRemove="ButtonRemove_HandleClick"
+                                                          OnAdd="ButtonAdd_HandleClick"
+                                                          IsRemove="CertificatesAdded.Any(x => x.Code == CertificatePages[i].Code)"
+                                                          CategoryName="@CategoryName"
+                                                          CertificateCode="@CertificatePages[i].Code" />
+                        </td>
+                    </tr>
+                }
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+<Paginator Result="@CertificatePages" OnPageChanged="@Paginator_HandleChanged" />
+
+@code{
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Parameter]
+    public ICollection<Certificate> CertificatesAdded { get; set; }
+
+    async Task ButtonAdd_HandleClick(string certificateCode)
+    {
+        Certificate certificate = CertificatePages.First(x => x.Code == certificateCode);
+        CertificatesAdded.Add(certificate);
+
+        Category category = new Category()
+        {
+            Name = CategoryName,
+            CertificateCodes = CertificatesAdded.Select(x => x.Code)
+        };
+
+        await CategoryService.UpdateCategoryAsync(category);
+
+        StateHasChanged();
+    }
+
+    async Task ButtonRemove_HandleClick(string certificateCode)
+    {
+        CertificatesAdded = CertificatesAdded.Where(x => x.Code != certificateCode).ToList();
+
+        Category category = new Category()
+        {
+            Name = CategoryName,
+            CertificateCodes = CertificatesAdded.Select(x => x.Code)
+        };
+
+        await CategoryService.UpdateCategoryAsync(category);
+
+        StateHasChanged();
+
+    }
+}

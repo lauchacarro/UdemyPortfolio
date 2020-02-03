@@ -1,14 +1,12 @@
-﻿@page "/admin/certificates"
+﻿@page "/admin/categories"
 @attribute [Authorize]
 @inject NavigationManager Navigation
 @layout AdminLayout
 
 @if (Admin.User != null)
 {
-    <a class="btn btn-primary" role="button" href="/Profile/@Admin.Identifier" target="_blank">Comparte Tu Portfolio</a>
-    <a class="btn btn-secondary" role="button" href="/Admin/Categories">Ver Categorias</a>
-
-    <TableCertificate></TableCertificate>
+    <a class="btn btn-primary" role="button" href="/Admin/AddCategory">Agregar Categoria</a>
+    <TableCategory></TableCategory>
 }
 
 @code{

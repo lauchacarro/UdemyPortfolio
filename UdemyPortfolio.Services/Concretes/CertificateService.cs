@@ -29,7 +29,7 @@ namespace UdemyPortfolio.Services.Concretes
             string userPath = _pathService.GetUserFolder();
             FileContent firstCertificateFile = await _githubService.GetFileContentAsync(userPath, "FirstCertificate");
 
-            Certificate firstCertificate = _udemyService.GetCertificate(firstCertificateFile.Content);
+            Certificate firstCertificate = await _udemyService.GetCertificate(firstCertificateFile.Content);
             validationResult.Result = firstCertificate.User.Url_Title.Equals(certificate.User.Url_Title);
             return validationResult;
         }
@@ -49,7 +49,7 @@ namespace UdemyPortfolio.Services.Concretes
 
             foreach (FileContent file in certificateCodes)
             {
-                Certificate certificate = _udemyService.GetCertificate(file.Name);
+                Certificate certificate = await _udemyService.GetCertificate(file.Name);
                 yield return certificate;
             }
         }
@@ -61,7 +61,16 @@ namespace UdemyPortfolio.Services.Concretes
 
             foreach (FileContent file in certificateCodes)
             {
-                Certificate certificate = _udemyService.GetCertificate(file.Name);
+                Certificate certificate = await _udemyService.GetCertificate(file.Name);
+                yield return certificate;
+            }
+        }
+
+        public async IAsyncEnumerable<Certificate> GetCertificatesAsync(IEnumerable<string> certificateCodes)
+        {
+            foreach (string code in certificateCodes)
+            {
+                Certificate certificate = await _udemyService.GetCertificate(code);
                 yield return certificate;
             }
         }
@@ -80,7 +89,7 @@ namespace UdemyPortfolio.Services.Concretes
             }
             else
             {
-                validationResult.Result = _udemyService.GetUserInfo(firstCertificate.Content);
+                validationResult.Result = await _udemyService.GetUserInfo(firstCertificate.Content);
             }
 
             return validationResult;
@@ -100,7 +109,7 @@ namespace UdemyPortfolio.Services.Concretes
             }
             else
             {
-                validationResult.Result = _udemyService.GetUserInfo(firstCertificate.Content);
+                validationResult.Result = await _udemyService.GetUserInfo(firstCertificate.Content);
             }
 
             return validationResult;
@@ -122,7 +131,7 @@ namespace UdemyPortfolio.Services.Concretes
             }
             else
             {
-                Certificate certificate = _udemyService.GetCertificate(certificateCode);
+                Certificate certificate = await _udemyService.GetCertificate(certificateCode);
 
                 if (certificate.Code is null)
                 {

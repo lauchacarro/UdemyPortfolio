@@ -1,0 +1,30 @@
+﻿@using UdemyPortfolio.Services.Abstracts
+@using UdemyPortfolio.Models.Udemy
+@using UdemyPortfolio.Models.Categories
+
+@page "/admin/categories/{CategoryName}/modifycertificates"
+@layout AdminLayout
+@attribute [Authorize]
+@inject ICertificateService CertificateService
+@inject ICategoryService CategoryService
+
+<div class="py-5">
+    <h3 class="font-weight-bold mb-0">Agregar Certificados a la Categoria @CategoryName</h3>
+
+    <TableCertificateCategory CategoryName="@CategoryName" CertificatesAdded="@CertificatesAdded"/>
+</div>
+@code {
+    [Parameter]
+    public string CategoryName { get; set; }
+    ICollection<Certificate> CertificatesAdded { get; set; } = new List<Certificate>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Category category = await CategoryService.GetCategoryAsync(CategoryName);
+        await foreach(Certificate certificate in CertificateService.GetCertificatesAsync(category.CertificateCodes))
+        {
+            CertificatesAdded.Add(certificate);
+            StateHasChanged();
+        }
+    }
+}

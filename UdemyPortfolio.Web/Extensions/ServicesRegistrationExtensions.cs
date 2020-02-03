@@ -16,6 +16,7 @@ namespace UdemyPortfolio.Web.Extensions
             services.AddSingleton<ICertificateService, CertificateService>();
             services.AddSingleton<ICertificateExcelService, CertificateExcelService>();
             services.AddSingleton<IPathService, PathService>();
+            services.AddSingleton<ICategoryService, CategoryService>();
             services.AddHttpContextAccessor();
             return services;
         }

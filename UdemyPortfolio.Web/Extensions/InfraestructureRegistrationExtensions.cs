@@ -12,7 +12,7 @@ namespace UdemyPortfolio.Web.Extensions
             services.AddControllers();
             services.AddOptions();
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor(o => o.DetailedErrors = true);
             services.AddHealthChecks();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

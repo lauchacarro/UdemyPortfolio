@@ -1,0 +1,25 @@
+﻿@if (IsRemove)
+{
+    <button class="btn btn-secondary" role="button" @onclick="@(() => OnRemove.InvokeAsync(CertificateCode))">Quitar de @CategoryName</button>
+}
+else
+{
+    <button class="btn btn-primary" role="button" @onclick="@(() => OnAdd.InvokeAsync(CertificateCode))">Agregar a @CategoryName</button>
+}
+
+@code {
+    [Parameter]
+    public bool IsRemove { get; set; }
+
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Parameter]
+    public string CertificateCode { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnAdd { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnRemove { get; set; }
+}

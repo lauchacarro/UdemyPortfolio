@@ -1,0 +1,61 @@
+﻿@using UdemyPortfolio.Services.Abstracts
+@using UdemyPortfolio.Models.Categories
+@inject ICategoryService CategoryService
+
+<div class="table-responsive">
+    <table class="table">
+        <caption>@Categories.Count Categorias Creadas</caption>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cantidad de certificados</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Categories.Count; i++)
+            {
+                <tr>
+                    <th scope="row">@(i + 1) </th>
+                    <td>@Categories[i].Name</td>
+                    <td>@(Categories[i].CertificateCodes?.Count() ?? 0)</td>
+                    <td>
+                        <DeleteCategory Category="@Categories[i]" OnDeleted="@Category_HandleDeleted" />
+                        <a class="right" href="/Admin/Categories/@Categories[i].Name/ModifyCertificates"><span class="oi oi-plus" aria-hidden="true" title="Modificar Certificados"></span></a>
+                    </td>
+                </tr>
+
+            }
+
+
+        </tbody>
+    </table>
+</div>
+@code {
+    List<Category> Categories { get; set; } = new List<Category>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await foreach (Category category in CategoryService.GetCategoriesAsync())
+            {
+                Categories.Add(category);
+                this.StateHasChanged();
+            }
+        }
+    }
+
+    protected void Category_HandleDeleted(Category category)
+    {
+        List<Category> certificatesFiltered = new List<Category>();
+
+        IEnumerable<Category> enumerableCertificatesFiltered = Categories.Where(x => x.Name != category.Name);
+        certificatesFiltered.AddRange(enumerableCertificatesFiltered);
+
+        Categories.Clear();
+        Categories.AddRange(certificatesFiltered);
+        this.StateHasChanged();
+    }
+}

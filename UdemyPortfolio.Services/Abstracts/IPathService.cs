@@ -7,5 +7,7 @@
         string GetCertificateFolder();
         string GetCertificateFolder(string identifier);
         string GetUserIdentifier();
+        string GetCategoryFolder();
+        string GetCategoryFolder(string identifier);
     }
 }
